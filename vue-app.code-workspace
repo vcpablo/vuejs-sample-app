@@ -1,0 +1,22 @@
+{
+  "folders": [
+    {
+      "path": "."
+    }
+  ],
+  "settings": {
+    "editor.tabSize": 2,
+    "editor.formatOnSave": false,
+    "editor.codeActionsOnSave": {
+      "source.fixAll.eslint": true
+    },
+    "eslint.options": {
+      "extensions": [
+        ".html",
+        ".js",
+        ".vue"
+      ]
+    },
+    "eslint.validate": ["vue", "html", "hollowtree.vue-snippets", "javascript", "javascriptreact", "vue-html"]
+  }
+}
