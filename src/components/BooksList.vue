@@ -1,7 +1,7 @@
 <template>
   <v-row>
     <v-col>
-      <v-alert v-if="books.length === 0" dense outlined type="info">
+      <v-alert v-if="hasNoBooks" dense outlined type="info">
         No books found
       </v-alert>
       <template v-else>
@@ -35,6 +35,9 @@ export default {
   computed: {
     isTableView() {
       return this.mode === 'table'
+    },
+    hasNoBooks() {
+      return this.books && this.books.length === 0
     }
   }
 }

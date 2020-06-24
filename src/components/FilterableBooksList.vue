@@ -24,26 +24,15 @@ export default {
     ViewModeToggle,
     BooksList
   },
+  props: {
+    books: {
+      type: Array,
+      default: () => []
+    }
+  },
   data: () => ({
     search: '',
-    mode: 'table',
-    books: [
-      {
-        id: 1,
-        title: 'Tokyo',
-        author: 'Mo Hayder'
-      },
-      {
-        id: 2,
-        title: 'The Lost Symbol',
-        author: 'Dan Brown'
-      },
-      {
-        id: 3,
-        title: 'And Then There Were None',
-        author: 'Agatha Christie'
-      }
-    ]
+    mode: 'table'
   }),
   computed: {
     filteredBooks() {
