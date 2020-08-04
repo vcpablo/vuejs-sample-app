@@ -1,18 +1,27 @@
 <template>
   <v-row>
     <v-col>
-      <v-alert v-if="books.length === 0" dense outlined type="info">
-        No books found
+      <v-skeleton-loader v-if="books.loading" type="list-item-two-line" />
+      <v-alert v-else-if="books.error">
+        Unable to load books
       </v-alert>
-      <template v-else>
-        <BooksTable v-if="isTableView" :books="books" />
-        <BooksCards v-else :books="books" />
-      </template>
+      <v-row v-else>
+        <v-col>
+          <v-alert v-if="books.length === 0" dense outlined type="info">
+            No books found
+          </v-alert>
+          <template v-else>
+            <BooksTable v-if="isTableView" :books="filteredBooks" />
+            <BooksCards v-else :books="filteredBooks" />
+          </template>
+        </v-col>
+      </v-row>
     </v-col>
   </v-row>
 </template>
 
 <script>
+import { mapState, mapGetters } from 'vuex'
 import BooksTable from './BooksTable'
 import BooksCards from './BooksCards'
 
@@ -23,16 +32,14 @@ export default {
     BooksCards
   },
   props: {
-    books: {
-      type: Array,
-      default: () => []
-    },
     mode: {
       type: String,
       default: 'table'
     }
   },
   computed: {
+    ...mapState('books', ['books']),
+    ...mapGetters('books', ['filteredBooks']),
     isTableView() {
       return this.mode === 'table'
     }

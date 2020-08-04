@@ -7,12 +7,13 @@
           <ViewModeToggle v-model="mode" />
         </v-col>
       </v-row>
-      <BooksList :books="filteredBooks" :mode="mode" />
+      <BooksList :mode="mode" />
     </v-col>
   </v-row>
 </template>
 
 <script>
+import { mapState, mapGetters, mapMutations, mapActions } from 'vuex'
 import SearchBar from './SearchBar'
 import ViewModeToggle from './ViewModeToggle'
 import BooksList from './BooksList'
@@ -26,39 +27,23 @@ export default {
   },
   data: () => ({
     search: '',
-    mode: 'table',
-    books: [
-      {
-        id: 1,
-        title: 'Tokyo',
-        author: 'Mo Hayder'
-      },
-      {
-        id: 2,
-        title: 'The Lost Symbol',
-        author: 'Dan Brown'
-      },
-      {
-        id: 3,
-        title: 'And Then There Were None',
-        author: 'Agatha Christie'
-      }
-    ]
+    mode: 'table'
   }),
   computed: {
-    filteredBooks() {
-      if (this.search) {
-        return this.books.filter(book =>
-          Object.values(book).some(value =>
-            String(value)
-              .toLowerCase()
-              .includes(this.search.toLowerCase())
-          )
-        )
-      }
-
-      return this.books
+    ...mapState('books', ['books']),
+    ...mapGetters('books', ['totalBooks'])
+  },
+  watch: {
+    search(value) {
+      this.setSearch(value)
     }
+  },
+  async created() {
+    await this.fetchBooks()
+  },
+  methods: {
+    ...mapMutations('books', ['setSearch']),
+    ...mapActions('books', ['fetchBooks'])
   }
 }
 </script>
